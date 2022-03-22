@@ -67,7 +67,7 @@ Example of complete appsettings.json:
 
 ## Known Bugs
 
-* _No known issues_
+* _When deleting a specialty on a doctor the specialty deleted will always be the one at the top of the list_
 
 ## Contact Me
 
