@@ -67,7 +67,7 @@ Example of complete appsettings.json:
 
 ## Known Bugs
 
-* _No known bugs_
+* _Can add duplicates on all details pages when that shouldnt be possible._
 
 ## Contact Me
 
