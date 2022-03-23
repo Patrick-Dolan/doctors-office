@@ -48,6 +48,8 @@ namespace DoctorsOffice.Controllers
 
     public ActionResult Details(int id)
     {
+      ViewBag.PatientId = new SelectList(_db.Patients, "PatientId", "Name");
+      ViewBag.SpecialtyId = new SelectList(_db.Specialties, "SpecialtyId", "Name");
       Doctor foundDoctor = _db.Doctors
         .Include(doctor => doctor.JoinDoctorPatient)
         .ThenInclude(joinPatient => joinPatient.Patient)
@@ -106,13 +108,6 @@ namespace DoctorsOffice.Controllers
       return RedirectToAction("Details", new { id = savedDoctor});
     }
 
-    public ActionResult AddPatient(int id)
-    {
-      Doctor foundDoctor = _db.Doctors.FirstOrDefault(doctor => doctor.DoctorId == id);
-      ViewBag.PatientId = new SelectList(_db.Patients, "PatientId", "Name");
-      return View(foundDoctor);
-    }
-
     [HttpPost]
     public ActionResult AddPatient(Doctor doctor, int PatientId)
     {
@@ -121,7 +116,18 @@ namespace DoctorsOffice.Controllers
         _db.DoctorPatients.Add(new DoctorPatient() {PatientId = PatientId, DoctorId = doctor.DoctorId});
         _db.SaveChanges();
       }
-      return RedirectToAction("Index");
+      return RedirectToAction("Details", new { id = doctor.DoctorId});
+    }
+
+    [HttpPost]
+    public ActionResult AddSpecialty(Doctor doctor, int SpecialtyId)
+    {
+      if (SpecialtyId !=0)
+      {
+        _db.DoctorSpecialty.Add(new DoctorSpecialty() {SpecialtyId = SpecialtyId, DoctorId = doctor.DoctorId});
+        _db.SaveChanges();
+      }
+      return RedirectToAction("Details", new { id = doctor.DoctorId});
     }
   }
 }

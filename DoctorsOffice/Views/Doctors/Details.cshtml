@@ -54,6 +54,20 @@ else
   </ul>
 }
 
+<h5>Add a Patient to this Doctor:</h5>
+
+@using (Html.BeginForm("AddPatient","Doctors"))
+{
+  @Html.HiddenFor(model => model.DoctorId)
+
+  @Html.Label("Select Patient")
+  @Html.DropDownList("PatientId", "Select Patient")
+
+  <input type="submit" value="add" />
+}
+
+<hr>
+
 @if (Model.JoinDoctorSpecialty.Count == 0)
 {
   <p>This doctor hasn't been assigned any specialties.</p>
@@ -99,11 +113,20 @@ else
   </ul>
 }
 
+<h5>Add a specialty to this Doctor:</h5>
 
+@using (Html.BeginForm("AddSpecialty","Doctors"))
+{
+  @Html.HiddenFor(model => model.DoctorId)
+
+  @Html.Label("Select Specialty")
+  @Html.DropDownList("SpecialtyId", "Select Specialty")
+
+  <input type="submit" value="add" />
+}
 
 <p>@Html.ActionLink("Edit Doctor", "Edit", new { id = Model.DoctorId })</p>
 <p>@Html.ActionLink("Delete Doctor", "Delete", new { id = Model.DoctorId})</p>
-<p>@Html.ActionLink("Add Patient", "AddPatient", new {id = Model.DoctorId})</p>
 
 
 
