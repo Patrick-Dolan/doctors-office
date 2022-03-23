@@ -102,7 +102,7 @@ namespace DoctorsOffice.Controllers
     }
 
     [HttpPost]
-    public ActionResult DeleteSpecialty(int joinId)
+    public ActionResult DeleteDoctor(int joinId)
     {
       var joinEntry = _db.DoctorSpecialty.FirstOrDefault(entry => entry.DoctorSpecialtyId == joinId);
       int savedSpecialty = joinEntry.SpecialtyId;

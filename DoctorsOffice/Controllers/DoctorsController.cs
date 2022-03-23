@@ -96,7 +96,6 @@ namespace DoctorsOffice.Controllers
       return RedirectToAction("Details", new { id = savedDoctor});
     }
 
-    //TODO Fix bug where it deleted wrong specialty
     [HttpPost]
     public ActionResult DeleteSpecialty(int joinId)
     {
