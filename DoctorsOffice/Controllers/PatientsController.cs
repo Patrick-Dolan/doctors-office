@@ -46,6 +46,7 @@ namespace DoctorsOffice.Controllers
         .Include(patient => patient.JoinDoctorPatient)
         .ThenInclude(join => join.Doctor)
         .FirstOrDefault(model => model.PatientId == id);
+      ViewBag.DoctorId = new SelectList(_db.Doctors, "DoctorId", "Name");
       return View(foundPatient);
     }
 
@@ -83,13 +84,6 @@ namespace DoctorsOffice.Controllers
       return RedirectToAction("Index");
     }
 
-    public ActionResult AddDoctor(int id)
-    {
-      Patient foundPatient = _db.Patients.FirstOrDefault(patient => patient.PatientId == id);
-      ViewBag.DoctorId = new SelectList(_db.Doctors, "DoctorId", "Name");
-      return View(foundPatient);
-    }
-
     [HttpPost]
     public ActionResult AddDoctor(Patient patient, int DoctorId)
     {
@@ -98,7 +92,7 @@ namespace DoctorsOffice.Controllers
         _db.DoctorPatients.Add(new DoctorPatient() {DoctorId = DoctorId, PatientId = patient.PatientId});
         _db.SaveChanges();
       }
-      return RedirectToAction("Index");
+      return RedirectToAction("Details", new { id = patient.PatientId});
     }
 
     [HttpPost]
