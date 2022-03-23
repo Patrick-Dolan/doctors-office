@@ -14,8 +14,8 @@
   @Html.LabelFor(model => model.Birthday)
   @Html.TextBoxFor(model => model.Birthday, new {type="date"})
 
-  @Html.Label("Select Doctor")
-  @Html.DropDownList("DoctorId")
+  @Html.Label("Add Doctor")
+  @Html.DropDownList("DoctorId", "Select Doctor")
 
   <input type="submit" value="Save" />
 }
