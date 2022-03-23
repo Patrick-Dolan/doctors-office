@@ -5,7 +5,7 @@
 @model DoctorsOffice.Models.Doctor
 
 <h2>Doctor Details</h2>
-
+<hr>
 <h4>Doctor:</h4>
 <p><strong>@Html.DisplayNameFor(model => model.Name): </strong>@Html.DisplayFor(model => model.Name)</p>
 
@@ -23,20 +23,20 @@ else
       @using (Html.BeginForm("DeletePatient", "Doctors"))
       {
         <!-- Modal Button Trigger -->
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Patient">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Patient_@(join.DoctorPatientId)">
           Delete Patient
         </button>
 
         <!-- Modal -->
-        <div class="modal fade" id="Patient" tabindex="-1" aria-labelledby="PatientLabel" aria-hidden="true">
+        <div class="modal fade" id="Patient_@(join.DoctorPatientId)" tabindex="-1" aria-labelledby="PatientLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="PatientLabel">Modal title</h5>
+                <h5 class="modal-title" id="PatientLabel">Delete @join.Patient.Name?</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
-                <p>Clicking delete will make this action final.</p>
+                <p>Clicking delete will remove this patient from the doctor. This action is final and you will need to re-add the patient manually if you wish to have them associated again.</p>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -68,16 +68,16 @@ else
       @using (Html.BeginForm("DeleteSpecialty", "Doctors"))
       {
         <!-- Modal Button Trigger -->
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#SpecialtyModal">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#SpecialtyModal_@(join.DoctorSpecialtyId)">
         Delete Specialty
         </button>
 
         <!-- Modal -->
-        <div class="modal fade" id="SpecialtyModal" tabindex="-1" aria-labelledby="SpecialtyModalLabel" aria-hidden="true">
+        <div class="modal fade" id="SpecialtyModal_@(join.DoctorSpecialtyId)" tabindex="-1" aria-labelledby="SpecialtyModalLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="SpecialtyModalLabel">Modal title</h5>
+                <h5 class="modal-title" id="SpecialtyModalLabel">Delete @join.Specialty.Name?</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
