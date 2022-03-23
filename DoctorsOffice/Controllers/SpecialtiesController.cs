@@ -46,6 +46,7 @@ namespace DoctorsOffice.Controllers
         .Include(specialty => specialty.JoinDoctorSpecialty)
         .ThenInclude(join => join.Doctor)
         .FirstOrDefault(model => model.SpecialtyId == id);
+      ViewBag.DoctorId = new SelectList(_db.Doctors, "DoctorId", "Name");
       return View(foundSpecialty);
     }
 
@@ -98,7 +99,7 @@ namespace DoctorsOffice.Controllers
         _db.DoctorSpecialty.Add(new DoctorSpecialty() {DoctorId = DoctorId, SpecialtyId = specialty.SpecialtyId});
         _db.SaveChanges();
       }
-      return RedirectToAction("Index");
+      return RedirectToAction("Details", new { id = specialty.SpecialtyId});
     }
 
     [HttpPost]

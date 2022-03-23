@@ -5,9 +5,8 @@
 @model DoctorsOffice.Models.Specialty
 
 <h2>Specialty Details</h2>
-
-<h4>Specialty:</h4>
-<p><strong>@Html.DisplayNameFor(model => model.Name): </strong>@Html.DisplayFor(model => model.Name)</p>
+<hr>
+<h3><strong>Name: </strong>@Html.DisplayFor(model => model.Name)</h3>
 
 @if (Model.JoinDoctorSpecialty.Count == 0)
 {
@@ -15,15 +14,20 @@
 }
 else
 {
-  <p><strong>Doctors:</strong></p>
+  <p><strong>Doctors:</strong> (@Model.JoinDoctorSpecialty.Count)</p>
   <ul>
     @foreach (var join in Model.JoinDoctorSpecialty)
     {
-      <li>@join.Doctor.Name</li>
-      <!-- Modal Button Trigger -->
-      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Specailties_@(@join.DoctorSpecialtyId)">
-      Delete Doctor
-      </button>
+      @using (Html.BeginForm("DeleteDoctor", "Specialties"))
+      {
+      <p>
+        <!-- Modal Button Trigger -->
+        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#Specailties_@(@join.DoctorSpecialtyId)">
+        Delete
+        </button>
+        - @Html.ActionLink($"{join.Doctor.Name}", "Details", "Doctors", new {id = join.Doctor.DoctorId})
+
+      </p>
 
       <!-- Modal -->
       <div class="modal fade" id="Specailties_@(@join.DoctorSpecialtyId)" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -47,9 +51,19 @@ else
           </div>
         </div>
       </div>
+      }
     }
   </ul>
 }
+
+@using (Html.BeginForm("AddDoctor","Specialties"))
+{
+  @Html.HiddenFor(model => model.SpecialtyId)
+  @Html.Label("Add Doctor")
+  @Html.DropDownList("DoctorId", "Select Doctor")
+  <input type="submit" value="add" />
+}
+<hr>
 
 <p>@Html.ActionLink("Edit Specialty", "Edit", new { id = Model.SpecialtyId })</p>
 <p>@Html.ActionLink("Delete Specialty", "Delete", new { id = Model.SpecialtyId})</p>
