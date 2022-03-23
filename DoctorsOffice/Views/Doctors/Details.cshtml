@@ -6,125 +6,132 @@
 
 <h2>Doctor Details</h2>
 <hr>
-<h4>Doctor:</h4>
-<p><strong>@Html.DisplayNameFor(model => model.Name): </strong>@Html.DisplayFor(model => model.Name)</p>
-
-@if (Model.JoinDoctorPatient.Count == 0)
-{
-  <p>This doctor hasn't been assigned any patients.</p>
-}
-else
-{
-  <p><strong>Patients:</strong></p>
-  <ul>
-    @foreach (var join in Model.JoinDoctorPatient)
-    {
-      <li>@join.Patient.Name</li>
-      @using (Html.BeginForm("DeletePatient", "Doctors"))
-      {
-        <!-- Modal Button Trigger -->
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Patient_@(join.DoctorPatientId)">
-          Delete Patient
-        </button>
-
-        <!-- Modal -->
-        <div class="modal fade" id="Patient_@(join.DoctorPatientId)" tabindex="-1" aria-labelledby="PatientLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="PatientLabel_@(join.DoctorPatientId)">Delete @join.Patient.Name?</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                <p>Clicking delete will remove this patient from the doctor. This action is final and you will need to re-add the patient manually if you wish to have them associated again.</p>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                @using (Html.BeginForm("DeletePatient", "Doctors"))
-                {
-                  @Html.Hidden("joinId", @join.DoctorPatientId)
-                  <input type="submit" value="Delete"  class="btn btn-danger"/>
-                }
-              </div>
-            </div>
-          </div>
-        </div>
-      }
-    }
-  </ul>
-}
-
-<h5>Add a Patient to this Doctor:</h5>
-
-@using (Html.BeginForm("AddPatient","Doctors"))
-{
-  @Html.HiddenFor(model => model.DoctorId)
-
-  @Html.Label("Select Patient")
-  @Html.DropDownList("PatientId", "Select Patient")
-
-  <input type="submit" value="add" />
-}
-
+<h3><strong>Name: </strong>@Html.DisplayFor(model => model.Name)</h3>
 <hr>
-
-@if (Model.JoinDoctorSpecialty.Count == 0)
-{
-  <p>This doctor hasn't been assigned any specialties.</p>
-}
-else
-{
-  <p><strong>Specialties:</strong></p>
-  <ul>
-    @foreach (var join in Model.JoinDoctorSpecialty)
+<div class="row">
+  <div class="col">
+    @if (Model.JoinDoctorPatient.Count == 0)
     {
-      <li>@join.Specialty.Name</li>
-      @using (Html.BeginForm("DeleteSpecialty", "Doctors"))
-      {
-        <!-- Modal Button Trigger -->
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#SpecialtyModal_@(join.DoctorSpecialtyId)">
-        Delete Specialty
-        </button>
+      <p>This doctor hasn't been assigned any patients.</p>
+    }
+    else
+    {
+      <h4><strong>Patients:</strong> (@Model.JoinDoctorPatient.Count)</h4>
+      <ul>
+        @foreach (var join in Model.JoinDoctorPatient)
+        {
+          @using (Html.BeginForm("DeletePatient", "Doctors"))
+          {
+            <p>
+              <!-- Modal Button Trigger -->
+              <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#Patient_@(join.DoctorPatientId)">
+                Delete
+              </button>
+              - @Html.ActionLink($"{join.Patient.Name}", "Details", "Patients", new {id = join.Patient.PatientId})
+            </p>
 
-        <!-- Modal -->
-        <div class="modal fade" id="SpecialtyModal_@(join.DoctorSpecialtyId)" tabindex="-1" aria-labelledby="SpecialtyModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="SpecialtyModalLabel">Delete @join.Specialty.Name?</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                <p>Clicking delete will make this action final.</p>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                @using (Html.BeginForm("DeleteSpecialty", "Doctors"))
-                {
-                  @Html.Hidden("joinId", @join.DoctorSpecialtyId)
-                  <input type="submit" value="Delete"  class="btn btn-danger"/>
-                }
+            <!-- Modal -->
+            <div class="modal fade" id="Patient_@(join.DoctorPatientId)" tabindex="-1" aria-labelledby="PatientLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="PatientLabel_@(join.DoctorPatientId)">Delete @join.Patient.Name?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <p>Clicking delete will remove this patient from the doctor. This action is final and you will need to re-add the patient manually if you wish to have them associated again.</p>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    @using (Html.BeginForm("DeletePatient", "Doctors"))
+                    {
+                      @Html.Hidden("joinId", @join.DoctorPatientId)
+                      <input type="submit" value="Delete"  class="btn btn-danger"/>
+                    }
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-      }
+          }
+        }
+      </ul>
     }
-  </ul>
-}
 
-<h5>Add a specialty to this Doctor:</h5>
 
-@using (Html.BeginForm("AddSpecialty","Doctors"))
-{
-  @Html.HiddenFor(model => model.DoctorId)
+    @using (Html.BeginForm("AddPatient","Doctors"))
+    {
+      @Html.HiddenFor(model => model.DoctorId)
 
-  @Html.Label("Select Specialty")
-  @Html.DropDownList("SpecialtyId", "Select Specialty")
+      @Html.Label("Add Patient")
+      @Html.DropDownList("PatientId", "Select Patient")
 
-  <input type="submit" value="add" />
-}
+      <input type="submit" value="add" />
+    }
 
+    <hr>
+
+  </div>
+  <div class="col">
+    @if (Model.JoinDoctorSpecialty.Count == 0)
+    {
+      <p>This doctor hasn't been assigned any specialties.</p>
+    }
+    else
+    {
+      <h4><strong>Specialties:</strong> (@Model.JoinDoctorSpecialty.Count)</h4>
+      <ul>
+        @foreach (var join in Model.JoinDoctorSpecialty)
+        {
+          @using (Html.BeginForm("DeleteSpecialty", "Doctors"))
+          {
+            <p>
+              <!-- Modal Button Trigger -->
+              <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#SpecialtyModal_@(join.DoctorSpecialtyId)">
+              Delete
+              </button>
+              - @Html.ActionLink($"{join.Specialty.Name}", "Details", "Specialties", new {id = join.Specialty.SpecialtyId})
+
+            </p>
+
+            <!-- Modal -->
+            <div class="modal fade" id="SpecialtyModal_@(join.DoctorSpecialtyId)" tabindex="-1" aria-labelledby="SpecialtyModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="SpecialtyModalLabel">Delete @join.Specialty.Name?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <p>Clicking delete will make this action final.</p>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    @using (Html.BeginForm("DeleteSpecialty", "Doctors"))
+                    {
+                      @Html.Hidden("joinId", @join.DoctorSpecialtyId)
+                      <input type="submit" value="Delete"  class="btn btn-danger"/>
+                    }
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+        }
+      </ul>
+    }
+
+
+    @using (Html.BeginForm("AddSpecialty","Doctors"))
+    {
+      @Html.HiddenFor(model => model.DoctorId)
+
+      @Html.Label("Add Specialty")
+      @Html.DropDownList("SpecialtyId", "Select Specialty")
+
+      <input type="submit" value="add" />
+    }
+  </div>
+</div>
 <p>@Html.ActionLink("Edit Doctor", "Edit", new { id = Model.DoctorId })</p>
 <p>@Html.ActionLink("Delete Doctor", "Delete", new { id = Model.DoctorId})</p>
 
