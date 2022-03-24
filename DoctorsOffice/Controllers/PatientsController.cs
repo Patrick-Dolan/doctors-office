@@ -87,7 +87,8 @@ namespace DoctorsOffice.Controllers
     [HttpPost]
     public ActionResult AddDoctor(Patient patient, int DoctorId)
     {
-      if (DoctorId !=0)
+      bool isDuplicate = patient.isDuplicateDoctor(_db, DoctorId);
+      if (DoctorId !=0 && isDuplicate == false)
       {
         _db.DoctorPatients.Add(new DoctorPatient() {DoctorId = DoctorId, PatientId = patient.PatientId});
         _db.SaveChanges();
