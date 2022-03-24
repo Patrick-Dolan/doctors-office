@@ -1,13 +1,12 @@
 @{
   Layout = "_Layout";
 }
-
 @model DoctorsOffice.Models.Patient
 
 <h2>Patient Details</h2>
 <hr>
 <h4><strong>@Html.DisplayNameFor(model => model.Name): </strong>@Html.DisplayFor(model => model.Name)</h4>
-<p><strong>@Html.DisplayNameFor(model => model.Birthday): </strong>@Html.DisplayFor(model => model.Birthday)</p>
+<p><strong>@Html.DisplayNameFor(model => model.Birthday): </strong>@Model.Birthday.ToString("MMMM dd, yyyy")</p>
 <hr>
 
 <h4><strong>Doctors:</strong> (@Model.JoinDoctorPatient.Count)</h4>
