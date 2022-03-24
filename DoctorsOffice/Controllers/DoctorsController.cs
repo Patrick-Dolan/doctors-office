@@ -123,18 +123,6 @@ namespace DoctorsOffice.Controllers
     [HttpPost]
     public ActionResult AddSpecialty(Doctor doctor, int SpecialtyId)
     {
-      // //New Code--------------------------
-      // var specialties = _db.DoctorSpecialty.Where(record => record.DoctorId == doctor.DoctorId).ToList();
-      // bool isDuplicate = false;
-      // foreach (var specialty in specialties)
-      // {
-      //   if (SpecialtyId == specialty.SpecialtyId)
-      //   {
-      //     isDuplicate = true;
-      //     Console.WriteLine("Duplicate found");
-      //   }
-      // }
-      // //New Code--------------------------
       bool isDuplicate = doctor.isDuplicateSpecialty(_db, SpecialtyId);
       if (SpecialtyId != 0 && isDuplicate == false)
       {
