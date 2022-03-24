@@ -2,6 +2,7 @@ using DoctorsOffice.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -122,7 +123,20 @@ namespace DoctorsOffice.Controllers
     [HttpPost]
     public ActionResult AddSpecialty(Doctor doctor, int SpecialtyId)
     {
-      if (SpecialtyId !=0)
+      // //New Code--------------------------
+      // var specialties = _db.DoctorSpecialty.Where(record => record.DoctorId == doctor.DoctorId).ToList();
+      // bool isDuplicate = false;
+      // foreach (var specialty in specialties)
+      // {
+      //   if (SpecialtyId == specialty.SpecialtyId)
+      //   {
+      //     isDuplicate = true;
+      //     Console.WriteLine("Duplicate found");
+      //   }
+      // }
+      // //New Code--------------------------
+      bool isDuplicate = doctor.isDuplicateSpecialty(_db, SpecialtyId);
+      if (SpecialtyId != 0 && isDuplicate == false)
       {
         _db.DoctorSpecialty.Add(new DoctorSpecialty() {SpecialtyId = SpecialtyId, DoctorId = doctor.DoctorId});
         _db.SaveChanges();
