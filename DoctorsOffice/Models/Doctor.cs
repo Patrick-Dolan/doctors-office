@@ -29,5 +29,18 @@ namespace DoctorsOffice.Models
       }
       return isDuplicate;
     }
+    public bool isDuplicatePatient(DoctorsOfficeContext _db, int patientId)
+    {
+      var patients =  _db.DoctorPatients.Where(patient => patient.DoctorId == this.DoctorId).ToList();
+      bool isDuplicate = false;
+      foreach (var specialty in patients)
+      {
+        if (patientId == specialty.PatientId)
+        {
+          isDuplicate = true;
+        }
+      }
+      return isDuplicate;
+    }
   }
 }
