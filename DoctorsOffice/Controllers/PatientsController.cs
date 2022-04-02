@@ -87,7 +87,7 @@ namespace DoctorsOffice.Controllers
     [HttpPost]
     public ActionResult AddDoctor(Patient patient, int DoctorId)
     {
-      bool isDuplicate = patient.isDuplicateDoctor(_db, DoctorId);
+      bool isDuplicate = _db.DoctorPatients.Any(join => join.DoctorId == DoctorId && join.PatientId == patient.PatientId);
       if (DoctorId !=0 && isDuplicate == false)
       {
         _db.DoctorPatients.Add(new DoctorPatient() {DoctorId = DoctorId, PatientId = patient.PatientId});

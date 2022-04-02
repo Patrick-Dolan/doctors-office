@@ -112,7 +112,7 @@ namespace DoctorsOffice.Controllers
     [HttpPost]
     public ActionResult AddPatient(Doctor doctor, int PatientId)
     {
-      bool isDuplicate = doctor.isDuplicatePatient(_db, PatientId);
+      bool isDuplicate = _db.DoctorPatients.Any(join => join.PatientId == PatientId && join.DoctorId == doctor.DoctorId);
       if (PatientId !=0 && isDuplicate == false)
       {
         _db.DoctorPatients.Add(new DoctorPatient() {PatientId = PatientId, DoctorId = doctor.DoctorId});
@@ -124,7 +124,7 @@ namespace DoctorsOffice.Controllers
     [HttpPost]
     public ActionResult AddSpecialty(Doctor doctor, int SpecialtyId)
     {
-      bool isDuplicate = doctor.isDuplicateSpecialty(_db, SpecialtyId);
+      bool isDuplicate = _db.DoctorSpecialty.Any(join => join.SpecialtyId == SpecialtyId && join.DoctorId == doctor.DoctorId);
       if (SpecialtyId != 0 && isDuplicate == false)
       {
         _db.DoctorSpecialty.Add(new DoctorSpecialty() {SpecialtyId = SpecialtyId, DoctorId = doctor.DoctorId});

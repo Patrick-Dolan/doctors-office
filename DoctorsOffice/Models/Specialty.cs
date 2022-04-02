@@ -12,19 +12,5 @@ namespace DoctorsOffice.Models
     public int SpecialtyId { get; set; }
     public string Name { get; set; }
     public virtual ICollection<DoctorSpecialty> JoinDoctorSpecialty { get; set; }
-
-    public bool isDuplicateDoctor(DoctorsOfficeContext _db, int doctorId)
-    {
-      var doctors =  _db.DoctorSpecialty.Where(doctor => doctor.SpecialtyId == this.SpecialtyId).ToList();
-      bool isDuplicate = false;
-      foreach (var doctor in doctors)
-      {
-        if (doctorId == doctor.DoctorId)
-        {
-          isDuplicate = true;
-        }
-      }
-      return isDuplicate;
-    }
   }
 }
